@@ -1,0 +1,28 @@
+services:
+  mysql:
+    image: mariadb:10.11
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: SudoFixItRoot1
+      MYSQL_DATABASE: osticket
+      MYSQL_USER: osticket
+      MYSQL_PASSWORD: SudoFixItDB1
+    volumes:
+      - db_data:/var/lib/mysql
+
+  osticket:
+    image: devinsolutions/osticket:latest
+    platform: linux/amd64
+    restart: always
+    depends_on:
+      - mysql
+    ports:
+      - "8080:80"
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_DATABASE: osticket
+      MYSQL_USER: osticket
+      MYSQL_PASSWORD: SudoFixItDB1
+
+volumes:
+  db_data:
